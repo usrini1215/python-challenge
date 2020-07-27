@@ -48,29 +48,48 @@ with open(voters_csv) as csvfile:
         voteCount = voteCount + 1
         candidates.append(row[2])
 
-    countValue = 0
-    mydistinctcandidates = distinctValues(candidates)
-    loopcount = 0
-    for j in mydistinctcandidates:
-        countValue = listCount(candidates,mydistinctcandidates[loopcount])
-        candidateCount.append(countValue)
-        loopcount = loopcount + 1
-    
-    
-    print(mydistinctcandidates)
-    print(candidateCount)
-
-    
     print ("```text")
     print ("Election Results")
     print ("----------------------------")
     print (f"Total Votes: {voteCount}")
     print ("----------------------------")
-    print ("```")
 
     write_file.write("```text\n")
     write_file.write("Election Results\n")
     write_file.write("----------------------------\n")
     write_file.write(f"Total Votes: {voteCount}\n")
     write_file.write ("----------------------------\n")
-    write_file.write ("```")
+
+    countValue = 0
+    mydistinctcandidates = distinctValues(candidates)
+    loopcount = 0
+    candidatePercent = 0
+    winnerCount = 0
+    winner = ""
+    for j in mydistinctcandidates:
+        countValue = listCount(candidates,mydistinctcandidates[loopcount])
+        
+        candidateCount.append(countValue)
+        if winnerCount < candidateCount[loopcount] :
+            winner = mydistinctcandidates[loopcount]
+            winnerCount = candidateCount[loopcount] 
+
+        candidatePercent = round((candidateCount[loopcount]/voteCount)*100, 3)
+
+        print (f"{mydistinctcandidates[loopcount]}: {candidatePercent}%  ({candidateCount[loopcount]})")
+        write_file.write (f"{mydistinctcandidates[loopcount]}: {candidatePercent}%  ({candidateCount[loopcount]})\n")
+
+        loopcount = loopcount + 1
+    
+    
+    #print(mydistinctcandidates)
+    #print(candidateCount)
+    print ("----------------------------")
+    print (f"Winner: {winner}")
+    print ("----------------------------")
+    
+    write_file.write  ("----------------------------\n")
+    write_file.write  (f"Winner: {winner}\n")
+    write_file.write  ("----------------------------\n")
+    print  ("```")
+    write_file.write ("```\n")
